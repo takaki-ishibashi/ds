@@ -1,42 +1,50 @@
-// Array Stack IF
 'use strict';
-var a = [];
-var n = 0;
+var ArrayStack = function () {
+  this.n = 0;
+  this.a = [];
+  this.a.length = 5;
+  
+  this.size = function () {
+    return this.n;
+  }
+  
+  this.get = function (i) {
+    return this.a[i];
+  }
+  
+  this.set = function (i, x) {
+    if (0 <= i && i < (this.a.length - 1)) {
+      var y = this.a[i];
+      this.a[i] = x;
+      return y;
+    }
+  }
 
-function size() {
-  return n;
-}
-function get(i) {
-  return a[i];
-}
-function set(i, x) {
-  if (0 <= i && i < (a.length - 1)) {
-    var y = a[i];
-    a[i] = x;
-    return y;
+  this.resize = function () {
+    var b = [];
+    b.length = this.n * 2;
+    for (var i=0; i<this.n; i++) {
+      b[i] = this.a[i];
+    }
+    this.a = b;
   }
-}
-function resize() {
-  var b = [];
-  b.length = n * 2;
-  for (var i = 0; i < n; i++) {
-    b[i] = a[i];
+
+  this.add = function (i, x) {
+    if ((this.n+1) >= this.a.length) this.resize();
+    for (var j=this.n; j>i; j--) {
+      this.a[j] = this.a[j-1];
+    }
+    this.a[i] = x;
+    this.n++;
   }
-  a = b;
-}
-function add(i, x) {
-  if (n + 1 >= a.length) resize();
-  for (var j = n; j > i; j--) {
-    a[j] = a[j - 1];
+
+  this.remove = function(i) {
+    var x = this.a[i];
+    for (var j=i; j<(this.n-1); j++) {
+      this.a[j] = this.a[j+1];
+    }
+    this.n--
+    if (this.length >= (3*this.n)) resize();
+    return x;
   }
-  a[i] = x;
-  n++;
-}
-function remove(i) {
-  var x = a[i];
-  for (var j = i; j < (n - 1); j++) {
-    a[j] = a[j + 1];
-  }
-  n--;
-  return x;
 }
