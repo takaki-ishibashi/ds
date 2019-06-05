@@ -1,5 +1,5 @@
 'use strict';
-const ArrayStack = function () {
+var ArrayStack = function () {
   this.n = 0; // number of element
   this.a = [];
   this.a.length = 5; // initial length of the list
@@ -14,16 +14,16 @@ const ArrayStack = function () {
   
   this.set = function (i, x) {
     if (0 <= i && i < (this.a.length - 1)) {
-      let y = this.a[i];
+      var y = this.a[i];
       this.a[i] = x;
       return y;
     }
   }
 
   this.resize = function () {
-    let b = [];
+    var b = [];
     b.length = this.n * 2;
-    for (let i = 0; i < this.n; i++) {
+    for (var i = 0; i < this.n; i++) {
       b[i] = this.a[i];
     }
     this.a = b;
@@ -31,7 +31,7 @@ const ArrayStack = function () {
 
   this.add = function (i, x) {
     if ((this.n + 1) >= this.a.length) this.resize();
-    for (let j = this.n; j > i; j--) { // 末尾に新規要素を追加して、１つ前の要素を後ろの要素にシフト
+    for (var j = this.n; j > i; j--) { // 末尾に新規要素を追加して、１つ前の要素を後ろの要素にシフト
       this.a[j] = this.a[j-1]; // resizeを無視するとO(n-i)
     }
     this.a[i] = x;
@@ -39,8 +39,8 @@ const ArrayStack = function () {
   }
 
   this.remove = function(i) {
-    let x = this.a[i];
-    for (let j = i; j < (this.n - 1); j++) { // １つ前の要素に後ろの要素をシフト
+    var x = this.a[i];
+    for (var j = i; j < (this.n - 1); j++) { // １つ前の要素に後ろの要素をシフト
       this.a[j] = this.a[j + 1]; // O(n-i)
     }
     this.n--
@@ -49,7 +49,7 @@ const ArrayStack = function () {
   }
 }
 
-let as = new ArrayStack();
+var as = new ArrayStack();
 as.add(0,2)
 as.add(1,5)
 as.add(2,1)
