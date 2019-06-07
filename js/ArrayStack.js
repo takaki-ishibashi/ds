@@ -73,7 +73,7 @@ var ArrayStack = function () {
   }
 }
 
-// test
+// run
 var as = new ArrayStack();
 as.add(0,'b')
 as.add(1,'r')

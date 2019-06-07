@@ -52,6 +52,7 @@ var ArrayQueue = function () {
   }
 }
 
+// run
 var aq = new ArrayQueue();
 aq.add('x');
 aq.add('x');
