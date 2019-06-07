@@ -1,13 +1,32 @@
 #!/usr/bin/env node
+/**
+ * expect:
+ * [ ][ ][a][b][c][ ]
+ * add(d)
+ * [ ][ ][a][b][c][d]
+ * add(e)
+ * [e][ ][a][b][c][d]
+ * remove()
+ * [e][ ][ ][b][c][d]
+ * add(f)
+ * [e][f][ ][b][c][d]
+ * add(g)
+ * [e][f][g][b][c][d]
+ * add(h)
+ * [b][c][d][e][f][g][h][ ][ ][ ][ ][ ]
+ * remove()
+ * [ ][c][d][e][f][g][h][ ][ ][ ][ ][ ]
+ */
 'use strict';
 var ArrayQueue = function () {
   this.a = [];
-  this.a.length = 5;
-  this.n = 0;
-  this.j = 0; // tracking index
+  this.a.length = 6;
+  this.n = 0; // number of element
+  this.j = 0; // index of tracking
 
   this.add = function (x) {
-    if (this.n+1 >= this.a.length) this.resize();
+    // if (this.n+1 >= this.a.length) this.resize(); // todo
+    if (this.n >= this.a.length) this.resize();
     this.a[(this.j+this.n) % this.a.length] = x;
     this.n++;
     return true;
@@ -15,6 +34,7 @@ var ArrayQueue = function () {
   
   this.remove = function () {
     var x = this.a[this.j];
+    delete this.a[this.j];
     this.j = (this.j+1) % this.a.length;
     this.n--;
     if (this.a.length >= 3*this.n) this.resize();
@@ -33,20 +53,20 @@ var ArrayQueue = function () {
 }
 
 var aq = new ArrayQueue();
-console.log(aq.add(1))
-console.log(aq.add(2))
-console.log(aq.add(3))
-console.log(aq.add(4))
-console.log(aq.a, aq.n, aq.j)
-console.log(aq.add(5))
-console.log(aq.a, aq.n, aq.j)
-aq.remove()
-console.log(aq.a, aq.n, aq.j)
-console.log(aq.add(6))
-console.log(aq.add(7))
-console.log(aq.a, aq.n, aq.j)
-aq.remove()
-aq.remove()
-aq.remove()
-aq.remove()
-console.log(aq.a, aq.n, aq.j)
+aq.add('x');
+aq.add('x');
+aq.add('a');
+aq.add('b');
+aq.add('c');
+aq.remove();
+aq.remove();
+console.log(aq.a, aq.n, aq.j);
+aq.add('d');
+aq.add('e');
+aq.remove();
+aq.add('f');
+aq.add('g');
+aq.add('h');
+console.log(aq.a, aq.n, aq.j);
+aq.remove();
+console.log(aq.a, aq.n, aq.j);
