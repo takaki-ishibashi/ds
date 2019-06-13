@@ -24,8 +24,7 @@
 'use strict';
 var ArrayStack = function () {
   this.n = 0; // number of element
-  this.a = [];
-  this.a.length = 6; // initial length of the list
+  this.a = new Array(6); // initial length of the list
   
   this.size = function () {
     return this.n;
@@ -74,20 +73,22 @@ var ArrayStack = function () {
 }
 
 // run
-var as = new ArrayStack();
-as.add(0,'b')
-as.add(1,'r')
-as.add(2,'e')
-as.add(3,'d')
-console.log('01', as.a, as.n, as.a.length)
-as.add(2, 'e')
-console.log('02', as.a, as.n, as.a.length)
-as.add(5, 'r')
-as.add(5, 'e')
-console.log('03', as.a, as.n, as.a.length)
-as.remove(4)
-as.remove(4)
-as.remove(4)
-console.log('04', as.a, as.n, as.a.length)
-as.set(2, 'i')
-console.log('05', as.a, as.n, as.a.length)
+// var as = new ArrayStack();
+// as.add(0,'b')
+// as.add(1,'r')
+// as.add(2,'e')
+// as.add(3,'d')
+// console.log('01', as.a, as.n, as.a.length)
+// as.add(2, 'e')
+// console.log('02', as.a, as.n, as.a.length)
+// as.add(5, 'r')
+// as.add(5, 'e')
+// console.log('03', as.a, as.n, as.a.length)
+// as.remove(4)
+// as.remove(4)
+// as.remove(4)
+// console.log('04', as.a, as.n, as.a.length)
+// as.set(2, 'i')
+// console.log('05', as.a, as.n, as.a.length)
+
+module.exports = ArrayStack;

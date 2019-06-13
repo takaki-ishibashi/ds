@@ -1,0 +1,422 @@
+#COPY -  data structure
+https://sites.google.com/view/open-data-structures-ja/home
+
+
+★: important
+W: Word
+d: destination(移動先)
+s: source(移動元)
+n: number of element
+a: array
+i: index
+
+
+# === 1 ===
+IF(data structure): interface、そのdata structureで何(操作一式と操作のシグネチャ)をするかの定義;
+implementation(data  structure): そのdata structureですることをどう(data structureの内部構造とアルゴリズム)やるのかの定義;
+abstract data type: 抽象データ型、IFの別名、そのdata structureがサポートする操作一式とsemanticsの定義;
+Queue IFのabstract data  typ: add(x)/値xをQueueに追加する、remove()/前に追加した値yをQueueから削除し返す;
+Queueでは取り出し規則が決まっていて削除する値は一意に決まる;
+取り出し規則: FIFO、優先度つけ、LIFO、etc;
+
+FIFO Queue IF: 先に追加した要素から削除★
+```
+// add(x)/enqueue(x)
+=>[x][][]...[]
+// remove()/dequeue()
+[x][][]...[]=>[y]
+```
+
+優先度付きQueue IF: 最小の要素から削除★
+```
+// add(x)
+=>[x][3][5]...[17]
+// remove()/deleteMin()
+[x][5]...[17]=>[3]
+```
+
+LIFO Queue(or Stack) IF: 最後に追加した要素から削除★
+```
+// add(x)/push()
+[][]…[]<=[x]
+// remove()/pop()
+[][]…[]=>[x]
+```
+
+Dequeue(FIFO Queue+LIFO Queue) IF:★
+```
+// add1(x)/addFirst(x)
+=>[x][][]...[]
+// remove1()/removeFirst()
+[x]<=[][]...[]
+// add2(x)/addLast(x)
+[][]…[]<=[x]
+// remove2()/removeLast()
+[][]…[]=>[x]
+```
+
+序数: eg 配列のインデックス;
+List IF: FIFO Queue、Stack、Dequeueをまとめたもの★
+```
+[x0][x1]…[xi-1]
+size(): 長さnを返す。
+get(i): xiの値を返す。
+set(i, x): xiの値をxにする。
+add(i, x): xをi番目に追加、xi…xn-1を後ろにずらす。シーケンシャルにはj∈{i…n-1}についてxj+1=xjとし、nを１つ増やし、xi=xとする。
+remove(i): xiを削除、xi+1…xn-1を前にずらす。シーケンシャルにはj∈{i…n-2}についてxj=xj-1とし、nを１つ減らす。
+```
+
+Dequeu IF by List:
+```
+addFist(x) => add(0, x)
+removeFirst() => remove(0)
+addLast(x) => add(n-1, x)
+removeLast() => remove(n-1)
+```
+
+定数時間実行: 要素数がいくつになっても実行時間がuniformなこと;
+USet IF: UnorderedSet、重複無しで順序がつけられない要素の集合
+```
+size(): 集合の要素数nを返す。
+add(x): x==yを満たす集合の要素yが存在しなければxを追加する、追加したらtrue、追加されなければfalseを返す。
+remove(x): x==yを満たす集合の要素yが存在すれば取り除きyを返す、存在しなければnullを返す。
+find(x): x==yを満たす集合の要素y
+探す、見つかればyを返す、見つからなければnullを返す。
+```
+
+キー値に対応するIFをDictionary or Mapという;
+SSet IF: SortedSet、順序付けられた要素の集合、全順序集合
+```
+// size,add,removeはUSetと同じsemantics
+size(): 集合の要素数nを返す。
+add(x): x==yを満たす集合の要素yが存在しなければxを追加する、追加したらtrue、追加されなければfalseを返す。
+remove(x): x==yを満たす集合の要素yが存在すれば取り除きyを返す、存在しなければnullを返す。
+find(x): 順序付けられた集合からxの"位置"を特定する、y≧xになる最小の要素yを見つける、見つかればyを返す、見つからなければnullを返す。
+```
+
+SSetのfind(x)はsuccessor search、後継探索ともいう、xが見つからなくても意味のある結果を返すという点でUSetのfind(x)と異なる; // TODO
+全順序集合: 任意の２つの要素xyの大小を比べられること;
+USetよりSSetのほうがimplementationが複雑で実行時間も長引くため"できるだけUSetを使った"ほうが良い;
+よく使う数学の知識/対数とは右記の定義が成り立つもの、log b k => b^x = k;
+よく使う数学の知識/大雑把だけどpracticalな対数の覚え方: log b kはkを何回bで割ると1以下になるかを表す=>何回の操作で1つの候補が見つかるかを表す、eg binary searchの場合、1回の操作で候補数を2で割るからn-1候補から1つの候補を見つける処理の見積りはlog 2 n-1となる(スッキリ);
+よく使う数学の知識/オイラーの定数e(ネイピア数)を底とする対数=>natural logarithm(自然対数): log e k => ln kと書く;
+ネイピア数eの定義:
+```
+lim[n=>Infinity](1+1/n)^n ≒ 2.71828
+```
+よく使う数学の知識/よくある対数操作とnatural logarithm:
+```
+// 冪指数のlogの削除
+b^(log b k) = k
+// 底の変換
+log b k = log a k / log a b
+```
+よく使う数学の知識/natural logarithmと二進対数の比較:
+```
+ln k 
+= log e k 
+= log 2 k / log 2 e 
+= log 2 k / (log a e / log a 2)
+``` // TODO
+factorials: 階乗関数、nが非負整数ならn!=1x2x3…n;
+スターリング近似の見積り TODO
+正確な実行時間を求めむのは難しい(eg HWに依存)、だから実行時間≒実行命令数と近似する;
+非正確な実行時間の見積り: 漸近記法(asymptopic notation)、ビッグオー記法(big-Oh notation);
+オフセット計算: eg var arr=[...]; arr[5];
+間接代入: eg arr[5]=10;
+数学的背景のsub section1.3を読む // TODO
+rondmization: ランダムに選ぶこと;
+expected running time: rondmizationなプログラムの近似的な実行時間;
+wビットのword-RAM(Random Access Machine): 実行時間を理論的に計算するための数学的モデル、wビットのwordを格納できるセルを集めたランダムアクセスメモリを定義する、セルは数字(or word)の集合「0…2^w-1(0があるから)」のうちの１つを表せる、w=32, 64が一般的;
+要素数nがw>log nである時、そのDSの要素数を1wordで表せる; // TODO
+DSの性能のインデックス: 正しさ/time completency/space completency;
+正しさ: IFの正確性;
+time  completency: DSの操作の実行時間;
+space completency: DSのメモリ使用量;
+time completencyを保証する三大要素: worst-case running time/amortized running time/expected running time;
+worst-case running time: 最悪実行時間、最も強力な保証、あるdata  structureで操作の実行時間がf1(n)になる場合、それより悪くなることは絶対にない;
+amortized running time: 償却実行時間、典型的な操作にかかるコストがf2(n)の場合、m回の操作の実行時間の合計がmf2(n)以上になることはない、ある操作ではf2(n)を越えることがあるかもしれないが、平均的にf2(n)である;
+expected running time: 期待実行時間、f3(n)==確率変数ということ;
+最悪コストと償却コストの直感的な比較: 1200万の家を買うとする、120ヶ月ローンで月々12000づつ払うのが最悪コスト、一括払いだと120ヶ月の月々は10000になり最悪コストより低く済むこれが償却コスト(後から償却コストを上回ることはない);
+最悪コストと期待コスト: 火災保険に入るとする、ボヤまたは全焼の発生確率から1000円が妥当だが保険会社は利益を乗せて1500円に設定している、月々1500円払うか1000円貯金して500円浮かせるか、浮かせると1500円より得をするが、万が一全焼した場合1200万の損失になる、全焼時の損失が最悪コスト保険会社の利益分が期待コスト;
+1.8節の問題 // TODO
+
+
+# === 2 ===
+定数時間 // TODO
+backing array // TODO
+配列の利点と欠点: 利点/要素に一定の時間でアクセス可、get(i)やset(i,x)を定数時間で実行できる(ピンポイントで値を取得/更新するから、addのような挿入とは別)。欠点1/完全な動的じゃないadd(i,x)やremove(i)操作時に要素を整理するからnに応じた時間が掛かる。欠点2/配列のデフォルトの最大長も完全な動的じゃない、最大長を超えた時はその倍の配列にコピーし直す時間が発生する;
+欠点2の対処法: add/remove操作のたびに配列の最大長を倍にする、欠点2のコストを各操作に散らせば償却コストはO(1)になる;
+
+ArrayStack: backing arrayを使ったList IF★
+```
+// js
+var arr=[]
+var n=0
+function size() {
+  return n
+}
+function get(i) {
+  return a[i]
+}
+function set(i, x) {
+  if (0 <= i && i < a.length-1) {
+    var y = a[i]  // xに対してy
+    a[i] = x
+    return y
+  }
+}
+function add(i, x) {
+  if (n+1 >= a.length) resize() // expandではない、resizeはある境界値で拡張or縮小することが考えられるから
+  for (var j=n; j>i; j--) {
+    a[j] = a[j-1] // O(n-i)、resize()分は無視
+  }
+  a[i]=x
+  n++
+}
+function remove(i) {
+  var x = a[i]
+  for (var j=i; j<n-1; j++) {
+    a[j] = a[j+1] // O(n-i)
+  }
+  n--
+  if (a.length>=3*n) resize()
+  return x
+}
+function resize() {
+  var b[n*2]
+  for (var i=0; i<n; i++) {
+    b[i] = a[i]
+  }
+  a = b
+}
+```
+W/bounds-checking: eg 指定された配列の添字iが、0≦i≦配列のlength-1、であることを確認すること;
+ArrayStackの性能のサマリ: get(i) or set(i,x)はO(1)、add(i,x) or remove(i)はO(1+n-i)、resize()はO(m);
+
+# === FastArrayStack ===
+FaswArrayStack: or Arraystackの最適化、eg 自分で実装した部分(eg データシフトやデータコピー)をbuildin(eg C言語/memcpyやmemmove)に置換すること;
+
+# === ArrayQueue ===
+FIFO QueueにArrayStackが向かない理由: FIFOを実現するため配列のどちらかを先頭or末尾と定義しなければならない、でもその場合、add(i,x)でデータを追加する時にデータシフトの実行時間が要素数nに依存してしまうから;
+ArrayQueue(無限長配列):
+```
+a=[ a[j], a[j+1], a[j+2], …a[j+n-1] ] // 無限長の配列a
+j=0,n=0
+add x
+a[x], j=0, n=1
+add y
+a[x]a[y], j=0, n=2
+remove
+a[0]a[y], j=1, n=1
+```
+
+余剰算術で無限長配列を解決する流れ:
+```
+1/
+a=km+rを満たす
+整数a, 正整数m, 整数k, 整数r∈[0,…,m-1]があるとき
+a mod mと定義できる
+つまりrはaをmで割った余り
+a % m = r
+2/
+i mod a.length-1は
+常に[0,…,a.length-1]の値になり、無限長配列を再現できる
+これを循環配列という
+```
+
+ArrayQueue(FIFO Queue) IF:★
+```
+var a=[]
+var j // 追跡用インデックス
+var n
+function add(x) {
+  if (n+1 >= a.length) resize()
+  a[(j+n)%a.length]=x
+  n++
+  return true
+}
+function remove() {
+  x=a[j]
+  j=(j+1)%a.length
+  n--
+  if (a.length >= 3*n) resize() // TODO: why 3?=>今はresizeの時に配列長を2倍にしてるから！、感覚的には要素を巻き込まないよう要素数の2倍の空きが出たらその内の半分を詰めてる感じ;
+  return x
+}
+function resize() { 
+  var b=[n*2]
+  for (var k=0; k<n; k++) {
+    b[k]=a[(j+k)%a.length] // bの先頭から格納
+  }
+  a=b
+  j=0
+}
+```
+
+Arrary Deque IF or 双方向Queue★
+```
+// resize以外の操作の実行時間がほぼO(1)
+var a=[]
+var j
+var n
+function get(i) { // O(1)
+  return a[(j+i)%a.length]
+}
+function set(i, x) { // O(1)
+  a[(j+i)%a.length]=x
+}
+// i<n/2を評価することで、他要素の移動実行時間がmin[i, n-i]になることを保証する
+function add(i, x) { // O(1+min{i, n-i})
+  if (n+1>=a.length) resize()
+  if (i<n/2) { // 追加する位置が中央より左の場合、その位置のさらに左の要素を移動
+    j = (j==0) ? a.length -1 : j-1; // 1つ左にズレる
+    for (var k=0; k<i-1; i++) {
+      a[(j+k)%a.length] = a[(j+k+1)%a.length]
+    }
+  } else { // 追加する位置が中央より右の場合、その位置のさらに右の要素を移動
+    for (var k=n; k>i; i--) {
+      a[(j+k)%a.length]=a[(j+k-1)%a.length]
+    }
+  }
+  a[(j+i)%a.length]=x
+  n++
+}
+function remove(i) { // O(1+min{i, n-i})
+  var x=a[(j+i)%a.length] // jは挿入場所までのオフセットみたいなもの
+  if (i<n/2) {
+    for(var k=i; k>0; k--) {
+      a[(j+k)%a.length] = a[(j+k-1)%a.length]
+    }
+    j=(j+1)%a.length
+  } else {
+    for(var k=i; k<n-1; k++) {
+      a[(j+k)％a.length]=a[(j+k+1)%a.length]
+    }
+  }
+  n--
+  if(3*n<a.length) resize()
+  return x
+}
+function resize() { // O(n)
+  // ArrayQueueと同じ
+}
+```
+
+DualArrayDeque IF: ★
+```
+// List系IF
+// 2つのArrayStackを使ってArrayDequeくらいの性能と高度なデータ構造を作る、AD以上の性能はないけど、シンプルで高速;
+var front=[], back=[] // ２つのArrayStack(front, back)は背中合わせの関係
+function size() { // nみたいな要素数は無い
+  return front.size()+back.size()
+}
+// frontには0…front.size()-1までの要素を逆順、backはそのままの順で格納する
+function get(i) {
+  if (i<front.size) {
+    return front.get(front.size() - 1 - i) // front.get()はArrayStackのget()のイメージ
+  } else {
+    return back.get(i - front.size())
+  }
+}
+function set(i,x) {
+  if (i<front.size()) {
+    return front.set(front.size() - i, x)
+  } else {
+    return back.set(i - front.size())
+  }
+}
+function add(i,x) {
+  if (i<front.size()) {
+    front.add(front.size() - i, x)
+  } else {
+    back.add(i - front.size(), x)
+  }
+  balance()
+}
+// add()の実行時間の見積もり: // TODO: 45p
+function remove(i) {
+  var x
+  if (i<front.size()) {
+    x=front.remove(front.size() - 1 - i)
+  } else {
+    x=back.remove(i - front.size())
+  }
+  balance()
+  return x
+}
+function balance() { // O(n)
+  // front, backの要素数がそれぞれn/4位を格納、偏りそうな時はそれぞれn/2位に調整
+  if (3*front.size() < back.size() || 3*back.size() < front.size()) {
+    var n=front.size() + back.size()
+    var nf=n/2
+    var af=new Array(2*nf)
+    for(var i=0; i<nf; i++) {
+      af[nf - i - 1]=get(i)
+    }
+    var nb = n - nf
+    var ab=new Array(2*nb)
+    for(var i=0; i<nb; i++) {
+      ab[i]=get(nf + i)
+    }
+    front.a=af
+    front.n=nf
+    back.a=ab
+    back.n=nb
+  }
+}
+// TODO: ポテンシャル法を使った実行時間の証明★
+```
+
+RootishArrayStack:★
+RASを使うメリット: 使ってない配列要素の無駄なスペース(eg AraayStackのresize後は1/2または1/3使ってないこともある)を抑える;
+n個の要素をO(√n)個の配列に入れる;
+それぞれの配列の空き(無駄なスペース)<O(√n);
+hint: 頻繁に要素数と要素位置が出てきて混乱するけど、計算式の次元を揃えればすっきりする;
+
+blocks=[]
+blocks.length // r
+blocks.keys // [0][1]…[r-1]
+blocks[b].length // b+1
+// blocksの全ての要素数
+blocks[0]=[] // []は要素を表す箱
+blocks[1]=[][]
+:
+blocks[r]=[][]…[] // 縦r+1個、横r個の[]
+よってその面積=r*(r+1)/2=blocksの全ての要素数の合計
+// Listのi番目の要素がBlocksのb番目のblockにあるとわかっていれば、
+// i番目の要素はそのblockのj番目にある
+->j=i-b(b+1)/2
+// Listのi番目の要素がBlocksの何番目のblockに入ってるか求める
+list[i]=[1,2,3,4,5,6]
+blocks[b]=[[],[],[]]
+blocks[0]=[list[0]]
+blocks[1]=[list[1],list[2]]
+blocks[2]=[list[3],list[4],list[5]]
+i番目までの要素数=i+1
+0…b番目までの要素数の合計=blockの数*各blockの要素数の合計/2
+blockの数=b+1
+blockの要素数=b+2
+iの要素数とbの要素数の関係は(b+1)(b+2)/2≧i+1 → b^2+3b-2i≧0
+上の二次方程式の解=-3±√(9+8i)/2、常に負の解は捨てる
+残った式を満たす最小のbが解
+
+```
+// js
+function Blocks() {
+  this.b=[]
+  function get(i) { // TODO
+  }
+}
+var blocks=new Blocks()
+var n=0
+function i2b(i) {
+  var db=(-3.0+Math.sqrt(9+8*i)) / 2.0 // 2.3=>3.0, -2.3=>2.0
+  var b=Math.ceil(db)
+  return b
+}
+function get(i) {
+  var b=i2b(i)
+  var j=i-b*(b+1)/2
+  return blocks.get(b)
+}
+```
