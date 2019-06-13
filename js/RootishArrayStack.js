@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+'use strict';
 /**
  * expect:
  * [ ] [ ] [ ] [ ] [ ] [ ]
@@ -25,13 +26,12 @@
  * remove(0)
  * [f] [f,f] [ ] [ ] [ ] [ ]
  */
-'use strict';
 var ArrayStack = require('./ArrayStack');
 var assert = require('assert');
 
 var RootishArrayStack = function () {
-  this.blocks = new ArrayStack();
   this.n = 0;
+  this.blocks = new ArrayStack();
 
   this.i2b = function (i) {
     var db = (-3.0 + Math.sqrt(9 + 8 * i)) / 2.0;
@@ -41,48 +41,48 @@ var RootishArrayStack = function () {
 
   this.get = function (i) {
     var b = this.i2b(i);
-    var j = i - b*(b+1)/2;
+    var j = i - b * (b + 1) / 2;
     return this.blocks.get(b)[j];
   }
 
   this.set = function (i, x) {
     var b = this.i2b(i);
-    var j = i - b*(b+1)/2;
+    var j = i - b * (b + 1) / 2;
     var y = this.blocks.get(b)[j];
     this.blocks.get(b)[j] = x;
     return y;
   }
 
   this.grow = function () {
-    this.blocks.add(this.blocks.size(), new Array(this.blocks.size+1));
+    this.blocks.add(this.blocks.size(), new Array(this.blocks.size + 1));
   }
 
   this.add = function (i, x) {
     var r = this.blocks.size();
-    if (r*(r+1)/2 < this.n + 1) this.grow();
+    if (r * (r + 1) / 2 < this.n + 1) this.grow();
     this.n++;
-    for (var j=this.n-1; j>i; j--) {
-      this.set(j, this.get(j-1));
+    for (var j = this.n - 1; j > i; j--) {
+      this.set(j, this.get(j - 1));
     }
     this.set(i, x);
   }
 
   this.shrink = function () {
     var r = this.blocks.size();
-    while (r > 0 && (r-2)*(r-1)/2 >= this.n) {
-      this.blocks.remove(this.blocks.size()-1);
+    while (r > 0 && (r - 2) * (r - 1) / 2 >= this.n) {
+      this.blocks.remove(this.blocks.size() - 1);
       r--;
     }
   }
 
   this.remove = function (i) {
     var x = this.get(i);
-    for (var j=i; j<this.n-1; j++) {
-      this.set(j, this.get(j+1));
+    for (var j = i; j < this.n - 1; j++) {
+      this.set(j, this.get(j + 1));
     }
     this.n--;
     var r = this.blocks.size();
-    if ((r-2)*(r-1)/2 >= this.n) this.shrink();
+    if ((r - 2) * (r - 1) / 2 >= this.n) this.shrink();
     return x;
   }
 };
@@ -112,7 +112,6 @@ function test() {
   assert.strictEqual(ras.get(2), 'f');
   console.log('ok')
 }
-
 // test();
 
 module.exports = RootishArrayStack;

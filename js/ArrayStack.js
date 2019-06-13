@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+'use strict';
 /**
  * expect:
  * [b][r][e][d][ ]
@@ -21,16 +22,11 @@
  * set(2, i)
  * [b][r][i][e][ ][ ][ ][ ]
  */
-'use strict';
 var assert = require('assert');
 var ArrayStack = function () {
   this.n = 0; // number of element
   this.a = new Array(6); // initial length of the list
   
-  this.length = function () {
-    return this.a.length;
-  }
-
   this.size = function () {
     return this.n;
   }
@@ -92,7 +88,7 @@ function test() {
   as.remove(4);  
   as.remove(4);  
   assert.strictEqual(as.get(4), undefined);
-  assert.strictEqual(as.length(), 8);
+  assert.strictEqual(as.a.length, 8);
   as.set(2, 'i');
   assert.strictEqual(as.get(2), 'i');
 }
