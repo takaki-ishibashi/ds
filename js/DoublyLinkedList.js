@@ -1,5 +1,15 @@
 #!/usr/bin/env node
 'use strict';
+/**
+ * expect:
+ * <-[*][ ][*]<->[*][10][*]<->[*][20][*]<->[*][30][*]<->[*][ ][*]->
+ * add(1,50)
+ * <-[*][ ][*]<->[*][10][*]<->[*][50][*]<->[*][20][*]<->[*][30][*]<->[*][ ][*]->
+ * set(2,40)
+ * <-[*][ ][*]<->[*][10][*]<->[*][50][*]<->[*][40][*]<->[*][30][*]<->[*][ ][*]->
+ * remove(1)
+ * <-[*][ ][*]<->[*][10][*]<->[*][40][*]<->[*][30][*]<->[*][ ][*]->
+ */
 var Node = function (x) {
   this.x = x;
   this.next;
@@ -74,11 +84,13 @@ function test () {
   dll.add(1, 20);
   dll.add(2, 30);
   assert.strictEqual(dll.get(1), 20);
-  dll.set(1, 40);
-  assert.strictEqual(dll.get(1), 40);
+  dll.add(1, 50);
+  dll.set(2, 40);
+  assert.strictEqual(dll.get(2), 40);
   dll.remove(1);
-  assert.strictEqual(dll.get(1), 30);
+  assert.strictEqual(dll.get(1), 40);
+  console.log('ok');
 }
-// test();
+test();
 
 module.exports = DoublyLinkedList;
