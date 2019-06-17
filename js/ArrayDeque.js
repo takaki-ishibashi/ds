@@ -23,7 +23,7 @@ var ArrayDeque = function() {
   }
 
   this.set = function(i,x) {
-    this.a[(this.j + this.i) % this.a.length] = x;
+    this.a[(this.j + i) % this.a.length] = x;
   }
 
   this.resize = function() {
