@@ -156,6 +156,6 @@ function test () {
   assert.strictEqual(sss.n, 6);
   console.log('ok');
 }
-test();
+// test();
 
 module.exports = SkiplistSortedSet;
