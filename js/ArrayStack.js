@@ -26,8 +26,7 @@ var assert = require('assert');
 var ArrayStack = function () {
   this.n = 0; // number of element
   this.a = new Array(6); // initial length of the list
-  this.length = this.a.length;
-  
+
   this.size = function () {
     return this.n;
   }
