@@ -40,7 +40,7 @@ var ArrayStack = function () {
   this.remove = function(i) {
     var x = this.a[i];
     delete this.a[i];
-    for (var j=i; j<(this.n-1); i++) {
+    for (var j=i; j<(this.n-1); j++) {
       this.a[j] = this.a[j-1];
     }
     this.n--;
