@@ -420,3 +420,134 @@ function get(i) {
   return blocks.get(b)
 }
 ```
+
+
+# === 連結リスト ===
+連結リストの概要: List IF、あるリストの要素を収めたノードの集合、ノード同士をポインタで繋げて列にする;
+連結リストの短所と長所: 短所/get(i),set(i,x)の実行時間が定数でなくなる、i番目までの全ての要素を辿る。長所/動的な操作(削除や隣要素へのデータシフト)の実行時間が定数;
+
+# === singly-linked list ===
+w:末端ノード;
+全ての操作の実行時間がO(1)
+```
+SLList {
+  Node {
+    x
+    next
+  }
+  head
+  tail
+  n
+  add(x)
+  remove()
+  pop()
+  push(x)
+}
+
+// pseudo
+Node=function(y) {
+    x=y
+    next=null
+  }
+SLList = function() {
+  head
+  tail
+  n
+  push=function(x) {
+    u=new Node(x)
+    u.next=head
+    head=u
+    if(n===0)tail=u
+    n++
+    return x
+  }
+  pop =function() {
+    if(n===0) return null
+    x=next.x
+    u=head
+    head=u.next
+    delete u
+    if(--n===0) tail=null
+    return x
+  }
+  remove =function() {
+    // same as pop()
+  }
+  add=function(x) {
+    u=new Node(x)
+    if (n===0) {
+      head=u
+    } else {
+      tail.next=u
+    }
+    tail=u
+    n++
+    return true
+  }
+}
+```
+
+# === doubly-linked list ===
+```
+// pseudo
+Node=function(x) {
+  x
+  next
+  prev
+}
+DLList=function() {
+  dummy=new Node()
+  dummy.next=dummy
+  dummy.prev=dummy
+  n=0
+  getNode(i) {
+    ref
+    if(i<n/2){
+      ref=dummy.next
+      for(j=0;j<i;i++) {
+        ref=ref.next
+      }
+    } else {
+      ref=dummy
+      for(j=n;j>i;j--) {
+        ref=dummy.prev
+      }
+    }
+    return ref
+  }
+  get(i) {
+    return getNode(i).x
+  }
+  set(i,x) {
+    u=getNode(i)
+    y=u.x
+    u.x=x
+    return y
+  }
+  addBefore(w,x) {
+    u=new Node()
+    u.x=x
+    u.prev=w.prev
+    u.next=w
+    u.next.prev=u
+    u.prev.next=u
+    n++
+    return u
+  }
+  add(i,x) {
+    addBefore(getNode(i),x)
+  }
+  removeBefore(w) {
+    w.prev.next=w.next
+    w.next.prev=w.prev
+    delete w
+    n--
+  }
+  remove(i) {
+    w=getNode(i)
+    x=w.x
+    remove Before(w)
+    return x
+  }
+}
+```

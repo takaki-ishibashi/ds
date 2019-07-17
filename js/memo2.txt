@@ -1,0 +1,113 @@
+# data structure2
+https://sites.google.com/view/open-data-structures-ja
+
+★: important
+W: Word
+shorthand: d: destination, s: source, n: number of element, a: array, i: index
+
+# === spale-efficient list ===
+linked listのデメリット: 1/list中央のノードにアクセスする時間が長い、2/前後ノードへの参照を保持してるからメモリを食う;
+SEListはデメリット2を解決;
+一つのノードに複数の要素を入れる配列=ブロックを持つ;
+ブロックサイズ=変数bとする;
+ブロックは(b+1)個の要素が持てる;
+ブロックはDeque操作できるデータ構造(BDeque: bounded-deque)とする;
+BDequeのpseudo:
+```
+BDeque=function(b) {
+  n=0
+  j=0
+  z=new Array(b+1)
+  a=z
+  size()
+  add1(i,x) {
+    ArrayDeque.add(i,x)
+  }
+  add2(x) {
+    ArrayDeque.add(size(),x)
+    return true
+  }
+  resize()
+}
+```
+SEListのpseudo:
+```
+b=3 // ListのNode数とNodeのブロックの要素数
+Node=function(b) {
+  next
+  prev
+  d=new BDeque(b)
+}
+n
+dummy
+Location=function(u,j) {
+  this.u=u // 目的の要素を含むノード
+  this.j=j // 目的の要素の位置
+}
+l=new Location()
+getLocation(i,l) {
+  if(i<n/2) {
+    u=dummy.next
+    while(i>=u.d.size()) { // インデックスの値を消費するまでループ=探索、結局Listの連続した要素がブロック単位に散らばってるだけ
+      i-=u.d.size()
+      q=u.next
+    }
+    l.u=u
+    l.j=i
+  } else {
+    u=dummy
+    idx=n
+    while(i<idx) {
+      idx-=u.d.size()
+      u=u.prev
+    }
+    l.u=u
+    l.j=idx
+  }
+}
+get(i) {
+  l=new Location()
+  getLocation(i,l)
+  return l.u.d.get(l.j)
+}
+set(i,x) {
+  l=new Location()
+  getLocation(i,l)
+  y=l.u.d.get(l.j)
+  l.u.d.set(l.j,x)
+  return y
+}
+add1(x) {
+  last=dummy.prev
+  if (
+    last==dummy // ノードが一つもない
+    || last.d.size()==b+1
+  ) {
+    last=addBefore(dummy)
+  }
+  last.d.add(x)
+  n++
+}
+add2(i,x) {
+  if(i==this.n) {
+    add1(x)
+    return
+  }
+  getLocation(i,l)
+  u=l.u
+  // uのブロックを探索
+  r=0
+  while(r<b&&u!=dummy&&u.d.size()==b+1) {
+    u=u.next ★
+    r++
+  }
+  if(r==b) {
+    
+  }
+  n++
+}
+```
+フットプリントを求める★
+
+# === hash table ===
+hash code: テーブルの各データフィールドに紐づく値(Key);
