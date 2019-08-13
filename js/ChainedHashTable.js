@@ -56,8 +56,17 @@ var ChainedHashTable = function() {
     this.t = b;
   };
   
+  this.z = 123456789;
+  this.d = 8;
+  this.hashCode = function (x) {
+    let h = 0;
+      for (let i = 0, l = x.length; i < l; i++) {
+        h = Math.imul(31, h) + x.charCodeAt(i) | 0;
+      }
+    return h;
+  }
   this.hash = function(x) {
-    // todo
+    return (this.z * this.hashCode(x)) >> (this.w - this.d); 
   };
 
   this.add = function(x) {
@@ -85,6 +94,8 @@ var ChainedHashTable = function() {
 var assert = require('assert');
 function test() {
   var cht = new ChainedHashTable();
+  console.log(cht.hash('a'));
+	return
   cht.add('a');
   assert.notStrictEqual(cht.find('a'), null);
 }
