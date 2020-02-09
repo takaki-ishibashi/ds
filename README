@@ -1,0 +1,9 @@
+ref (https://drive.google.com/file/d/1Hdh-K3gyttzf-74j3B9EfOl_dScswHEF/view)
+
+# 1.2
+[successor search] or 後継探索、ある値xに等しい値が、ある集合に無い場合、意味のある結果を返す探索手法;
+[semantics] I-Fの概要;
+[Tip:SSetよりUSet] sortedな状態を維持する必要がある分、機能が多く複雑で実行時間も増える傾向があるため、原則、USetを使うべき;
+
+# 1.3
+
