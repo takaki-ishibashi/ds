@@ -6,4 +6,7 @@ ref (https://drive.google.com/file/d/1Hdh-K3gyttzf-74j3B9EfOl_dScswHEF/view)
 [Tip:SSetよりUSet] sortedな状態を維持する必要がある分、機能が多く複雑で実行時間も増える傾向があるため、原則、USetを使うべき;
 
 # 1.3
+x = log b^k -> b^x = k;
+[Binary logarithm] lok 2^k、2は省略可;
+[直感的なlog b^kの理解] kを何回bで割ると1以下になるか、を表す数、Ex. 二分探索の場合、1回の比較毎に対象が半分になるから、総数nとすると、特定の1つを見つける=Binary logarithmが1以下になるには、log 2^(n+1)回、特定の1つを見つける=Binary logarithmが1以下になるには「log 2^(n+1)」回の比較操作が必要になる;
 
