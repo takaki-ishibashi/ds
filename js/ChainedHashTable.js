@@ -1,7 +1,13 @@
 #!/usr/bin/env node
+/**
+ * ChainedHashTable.js
+ * Created on: 2019-08-16
+ * Autohr: Takaki.Ishibashi
+ * Restriction: number of list element <= length of hash table
+ */
 'use strict';
 
-var TempList = function() {
+var SomeList = function() {
   this.n = 0;
   this.a = [];
   this.resize = function() {
@@ -35,15 +41,17 @@ var TempList = function() {
 };
 
 var ChainedHashTable = function() {
-  this.t = [new TempList()];
+  this.t = [new SomeList()];
   this.n = 0;
 
   this.find = function(x) {
     var j = this.hash(x);
-    for (var i = 0; i < this.t[j].size(); i++) {
-      if (x === t[j].get(i)) {
-        return t[j].get(i);
-      }
+    if (this.t[j] !== undefined) {
+     for (var i = 0; i < this.t[j].size(); i++) {
+       if (x === this.t[j].get(i)) {
+         return this.t[j].get(i);
+       }
+     }
     }
     return null;
   };
@@ -55,23 +63,31 @@ var ChainedHashTable = function() {
     }
     this.t = b;
   };
-  
-  this.z = 123456789;
+
+  this.z = 4102541685;
   this.d = 8;
+  this.w = 32;
   this.hashCode = function (x) {
-    let h = 0;
-      for (let i = 0, l = x.length; i < l; i++) {
-        h = Math.imul(31, h) + x.charCodeAt(i) | 0;
-      }
-    return h;
+    var hc = 0;
+    for (var i = 0, l = x.length; i < l; i++) {
+      hc = Math.imul(31, hc) + x.charCodeAt(i) | 0;
+    }
+    return hc;
   }
+
+  /**
+   * Create the index for the list
+   * @param {string} x - data before hashed
+   * @return {integer} - number of integer after hashed
+   */
   this.hash = function(x) {
-    return (this.z * this.hashCode(x)) >> (this.w - this.d); 
+    return Math.trunc(((this.z * this.hashCode(x)) % Math.pow(2, this.w)) / Math.pow(2, (this.w - this.d)));
+    // return (this.z * this.hashCode(x)) >> (this.w - this.d);
   };
 
   this.add = function(x) {
     if (this.find(x) !== null) return false;
-    if (n + 1 > this.t.length) this.resize(x);
+    if (this.n + 1 > this.t.length) this.resize(x);
     this.t[this.hash(x)].add(x);
     this.n++;
     return true;
@@ -94,10 +110,8 @@ var ChainedHashTable = function() {
 var assert = require('assert');
 function test() {
   var cht = new ChainedHashTable();
-  console.log(cht.hash('a'));
-	return
-  cht.add('a');
-  assert.notStrictEqual(cht.find('a'), null);
+  assert.strictEqual(cht.add('a'), true);
+  return console.log('ok');
 }
 test();
 

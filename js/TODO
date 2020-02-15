@@ -1,1 +1,2 @@
-Fix dual-array-deque
+- Fix dual-array-deque
+- ChainedHashTable/Change to bit wise for logic of hash()
