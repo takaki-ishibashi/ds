@@ -1,0 +1,15 @@
+#include <stdlib.h>
+#include <assert.h>
+#include "array-stack.h"
+/*
+typedef struct {
+  size_t len;
+  size_t n;
+  void *arr;
+} as_t;
+*/
+void init(as_t *as, size_t elem_size) {
+  as->len = 0;
+  as->n = 0;
+  as->arr = malloc(elem_size);
+}

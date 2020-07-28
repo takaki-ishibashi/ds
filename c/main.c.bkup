@@ -1,0 +1,14 @@
+#include "array-stack.h"
+#include <stdio.h>
+
+int main(void) {
+  void *ar;
+  ar = init_ar();
+  init_as(&ar, sizeof(int));
+  set_as(3, 10);
+  get_as(3);
+  add_as(8);
+  rm_as(1);
+  printf("%d\n", len_ar()); // expect: 1
+  return 0;
+}
